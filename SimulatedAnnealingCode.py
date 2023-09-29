@@ -66,12 +66,12 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
         if random.random() < 0.5:
             best_solution.append(i)
 
-    # For max iterations (N) 
+    # For max iterations
     for iteration in range(N):
         # Generate a neighbor solution by cloning the current solution
         neighbor_solution = list(best_solution)
-        # Then choose randomly whether or add or remove a block
-        if random.random() < 0.5 and len(neighbor_solution) > 0: # Checking length is valid
+        # Then choose randomly whether to add or remove a block
+        if random.random() < 0.5 and len(neighbor_solution) > 0:
             # Choose random block to remove from the knapsack
             item_to_remove = random.randint(0, len(neighbor_solution) - 1)
             neighbor_solution.pop(item_to_remove)
