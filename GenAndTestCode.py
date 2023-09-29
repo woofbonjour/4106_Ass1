@@ -26,13 +26,12 @@ dataset['Best picks'] = dataset['Best picks'].apply(lambda x : string_to_list(x)
 
 
 ###############################################################
-
 def generate_binary_combinations(length):
 
     # Generate all possible combinations of block arrangments being in the knapsack (non-repetitive) in order of heaviest to lightest
-    combinations = [] 
+    combinations = []
      # Start from all blocks being included (2^length - 1) and decrement
-    for i in range(2**length - 1, -1, -1): 
+    for i in range(2**length - 1, -1, -1):
         binary_str = bin(i)[2:]  # Convert the integer to binary and remove the '0b' prefix
         binary_str = binary_str.zfill(length)  # Zero-fill to match desired length
         binary_list = [int(bit) for bit in binary_str]  # Convert the binary string to a list of integers
@@ -64,10 +63,10 @@ def gen_and_test(data):
     # Extract the sorted values from the combined list
     sorted_weight = [x[0] for x in sorted_combined_list]
     sorted_prices = [x[1] for x in sorted_combined_list]
-    
+
     # For each possible combination of blocks in knapsack
-    for i in combinations: 
-        # Generate a new solution candadite
+    for i in combinations:
+        # Generate the next heaviest candidate
         new_weight_combination = [x*y for x, y in zip(i, sorted_weight)]
         new_price_combination = [x*y for x, y in zip(i, sorted_prices)]
         candidate_weight = sum(new_weight_combination)
@@ -82,8 +81,6 @@ def gen_and_test(data):
         # If not, then repeat with a new generated candidate
 
     return best_solution_price, best_solution
-
-
 ##################################################################3
 solutions = []
 for _, row in dataset.iterrows():

@@ -32,9 +32,8 @@ import math
 
 ##-------------------
 
-
-def knapsack_value(solution, values):
-    return sum([values[i] for i in solution])
+def knapsack_value(solution, prices):
+    return sum([prices[i] for i in solution])
 
 def knapsack_weight(solution, weights):
     return sum([weights[i] for i in solution])
@@ -43,6 +42,7 @@ def acceptance_probability(current_value, new_value, currTemp):
     if new_value > current_value:
         return 1.0
     return math.exp((new_value - current_value) / currTemp)
+
 
 ##-------------------
 
@@ -54,11 +54,11 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
     best_solution_price = 0
 
     # Extracting data from row
-    weight = data.iloc[0]
+    weights = data.iloc[0]
     prices = data.iloc[1]
     capacity = data.iloc[2]
 
-    n = len(weight) # Number of blocks available
+    n = len(weights) # Number of blocks available
     currTemp = initial_temperature # Set current temperature
 
     # Initialize with a random solution
@@ -70,20 +70,35 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
     for iteration in range(N):
         # Generate a neighbor solution by cloning the current solution
         neighbor_solution = list(best_solution)
-        # Then choose randomly whether to add or remove a block
-        if random.random() < 0.5 and len(neighbor_solution) > 0:
-            # Choose random block to remove from the knapsack
-            item_to_remove = random.randint(0, len(neighbor_solution) - 1)
-            neighbor_solution.pop(item_to_remove)
+        
+        # Randomly decide whether to add or remove an item
+        if random.random() < 0.5:
+            # Try to add an item with the highest value-to-weight ratio
+            best_candidate = None
+            best_ratio = 0
+            for i in range(n):
+                if i not in neighbor_solution:
+                    ratio = prices[i] / weights[i]
+                    if weights[i] + knapsack_weight(neighbor_solution, weights) <= capacity and ratio > best_ratio:
+                        best_candidate = i
+                        best_ratio = ratio
+            if best_candidate is not None:
+                neighbor_solution.append(best_candidate)
         else:
-            # Choose random block to add to knapsack
-            item_to_add = random.randint(0, n - 1)
-            if item_to_add not in neighbor_solution:
-                neighbor_solution.append(item_to_add)
+            # Try to remove an item with the lowest value-to-weight ratio
+            worst_candidate = None
+            worst_ratio = float('inf')
+            for i in neighbor_solution:
+                ratio = prices[i] / weights[i]
+                if ratio < worst_ratio:
+                    worst_candidate = i
+                    worst_ratio = ratio
+            if worst_candidate is not None:
+                neighbor_solution.remove(worst_candidate)
 
         # Calculate the value and weight of the neighbor solution
         neighbor_value = knapsack_value(neighbor_solution, prices)
-        neighbor_weight = knapsack_weight(neighbor_solution, weight)
+        neighbor_weight = knapsack_weight(neighbor_solution, weights)
 
         # Accept or reject the neighbor solution based on acceptance probability
         if neighbor_weight <= capacity and acceptance_probability(best_solution_price, neighbor_value, currTemp) > random.random():
@@ -100,11 +115,24 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
 ##################################################################3
 #'''
 solutions_sa = []
+printnow = True
 for _, row in dataset.iterrows():
     target = row['Best price']
-    solution, indexes = simulated_annealing(row, N = 10, initial_temperature=1, cooling_rate=0.95)
+    solution, indexes = simulated_annealing(row, N = 50, initial_temperature=1, cooling_rate=0.95)
     solutions_sa.append(1 if target == solution else 0)
 
 # Accuracy
 print("Simulated Annealing Accuracy is", np.mean(solutions_sa))
 #'''
+
+
+'''
+elif len(neighbor_solution)<n:
+    # Choose random block to add to knapsack
+    while True:
+        item_to_add = random.randint(0, n - 1)
+        if item_to_add not in neighbor_solution:
+            neighbor_solution.append(item_to_add)
+            break
+                    
+'''
