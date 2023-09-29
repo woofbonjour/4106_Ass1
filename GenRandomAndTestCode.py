@@ -60,7 +60,7 @@ def gen_and_test(data):
     candidate = [0]*5
 
     while not solution_found:
-        # Generate a new solution candadite
+        # Generate a new solution candadite at random
         for i in range(n):
             if random.random() < 0.5:
                 candidate.append(i)
@@ -76,7 +76,7 @@ def gen_and_test(data):
             best_solution = candidate_weight
             best_solution_price = candidate_price
             break
-        # If not, then repeat with a new generated candidate
+        # If not, then repeat with a new random generated candidate
 
     return best_solution_price, best_solution
 
