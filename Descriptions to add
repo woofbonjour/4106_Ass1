@@ -4,7 +4,7 @@ The idea behind this method is that, once a solution is found, it stops generati
 
 For this reason, we do not expect a high success rate for "best picks".
 
-This is a basic algorithm which follows the following process:
+Algorithm:
 1. Generate a possible solution candidate.
 2. Test the candidate.
   - If the candidate meets the criteria, then it is considered valid and the solution.
@@ -15,8 +15,8 @@ Criteria:
 
 
 Alteration:
-- The generator will start by having all the blocks in the knapsack and, if the candadite fails the weight capacity, generate the next heaviest arrangement of blocks.\
-Eventually, the arrangement will be light enough to satisfy the weight capacity which will then be a valid solution.
+- The generator will start by having all the blocks in the knapsack and, if the candadite surpasses the weight capacity, generate the next heaviest arrangement of blocks.\
+Eventually, the arrangement will be light enough to either satisfy the weight capacity which will then be a valid solution, or will be fully empty in which case there is no solution.
 
 
 
@@ -25,4 +25,8 @@ Eventually, the arrangement will be light enough to satisfy the weight capacity 
 **Your Analysis:**
 The success of this algorithm is ~51% which means only half of the solutions are the expected "best pick". While this method guarantees a solution that satisfies our hard contraint of being within the knapsack capacity, it clearly doesn't offer a high likelyhood of obtaining an optimal solution.
 
-Another route was explored with a different alteration method: starting with all blocks in the knapsack, then removing blocks at random rather than by ordered weight. This had a lower success rate of ~42%.  In comparrison, generating the next heaviest option and testing it was a more successful approach for finding the optimal solution.
+Notes:
+- The first method we took generated candidates completely at random. This had a 0% success rate for "best picks".
+- Another route was explored with a different alteration method: starting with all blocks in the knapsack, then removing blocks at random rather than by ordered weight. This had a lower success rate of ~42%.
+
+In comparrison, the final method used in the algorithm above of generating the next heaviest option and testing it was a more successful approach for finding the optimal solution. This method does require sorting the blocks by weight for each row in the dataset. However, because we are only dealing with 5 blocks in this scenario, this does not add much computing time.
