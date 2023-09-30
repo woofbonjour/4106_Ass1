@@ -8,8 +8,3 @@ This is a basic algorithm which follows the following process:
 
 The idea behind this algorithm, is that once a solution is found, it stops generating and does not seek to optimise unlike the other algorithms in this assignment.
 
-def gen_and_test(data):
-  candidate = [0] *5
-  candidate_value = 0
-
-  return best_solution_price, best_solution
