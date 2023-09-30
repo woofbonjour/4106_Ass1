@@ -14,8 +14,8 @@ Criteria:
 - The weight of the knapsack is within its capacity.
 
 Alteration:
-- The generator will start by having all the blocks in the knapsack and, if the candadite fails the weight capacity, generate the next heaviest arrangement of blocks
-  Eventually, the arrangement will be light enough to satisfy the weight capacity which will then be a valid solution.
+- The generator will start by having all the blocks in the knapsack and, if the candadite fails the weight capacity, generate the next heaviest arrangement of blocks.\
+Eventually, the arrangement will be light enough to satisfy the weight capacity which will then be a valid solution.
 
 
 
