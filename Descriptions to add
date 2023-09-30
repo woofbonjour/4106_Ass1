@@ -8,7 +8,7 @@ This is a basic algorithm which follows the following process:
 1. Generate a possible solution candidate.
 2. Test the candidate.
   - If the candidate meets the criteria, then it is considered valid and the solution.
-  - If not, alter some part of the candidate and repeat.
+  - If not, alter the candidate and repeat.
 
 Criteria:
 - The weight of the knapsack is within its capacity.
