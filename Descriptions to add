@@ -1,10 +1,24 @@
 **4. Generate and Test**
 
+The idea behind this method is that, once a solution is found, it stops generating and does not seek to optimise unlike the other algorithms in this assignment.
+
+For this reason, we do not expect a high success rate for "best picks".
+
 This is a basic algorithm which follows the following process:
 1. Generate a possible solution candidate.
 2. Test the candidate.
-- If the candidate meets the criteria, then it is considered valid and the solution.
-- If not, alter some part of the candidate and repeat.
+  - If the candidate meets the criteria, then it is considered valid and the solution.
+  - If not, alter some part of the candidate and repeat.
 
-The idea behind this algorithm, is that once a solution is found, it stops generating and does not seek to optimise unlike the other algorithms in this assignment.
+Criteria:
+- The weight of the knapsack is within its capacity.
 
+Alteration:
+- The method used in this generation, will be starting from a full sack and removing a block in a reverse binary sequence. 
+
+
+
+
+
+**Your Analysis:**
+The success of this algorithm is ~51% which means only half of the solutions are the expected "best pick". While this method garuntees a solution that satisfies our hard contraint of being within the knapsack capacity, it clearly doesn't offer a high likelyhood of obtaining an optimal solution.
