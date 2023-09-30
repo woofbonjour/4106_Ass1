@@ -53,6 +53,9 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
     best_solution = []
     best_solution_price = 0
 
+    curr_solution = []
+    curr_solution_price = 0
+
     # Extracting data from row
     weights = data.iloc[0]
     prices = data.iloc[1]
@@ -64,12 +67,12 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
     # Initialize with a random solution
     for i in range(n):
         if random.random() < 0.5:
-            best_solution.append(i)
+            curr_solution.append(i)
 
     # For max iterations
     for iteration in range(N):
         # Generate a neighbor solution by cloning the current solution
-        neighbor_solution = list(best_solution)
+        neighbor_solution = list(curr_solution)
         
         # Randomly decide whether to add or remove an item
         if random.random() < 0.5:
@@ -101,9 +104,13 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
         neighbor_weight = knapsack_weight(neighbor_solution, weights)
 
         # Accept or reject the neighbor solution based on acceptance probability
-        if neighbor_weight <= capacity and acceptance_probability(best_solution_price, neighbor_value, currTemp) > random.random():
-            best_solution = neighbor_solution
-            best_solution_price = neighbor_value
+        if neighbor_weight <= capacity and acceptance_probability(curr_solution_price, neighbor_value, currTemp) > random.random():
+            curr_solution = neighbor_solution
+            curr_solution_price = neighbor_value
+
+        if curr_solution_price > best_solution_price:
+            best_solution = curr_solution
+            best_solution_price = curr_solution_price
 
         # Reduce the temperature
         currTemp *= cooling_rate
