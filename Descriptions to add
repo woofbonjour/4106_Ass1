@@ -22,4 +22,6 @@ Eventually, the arrangement will be light enough to satisfy the weight capacity 
 
 
 **Your Analysis:**
-The success of this algorithm is ~51% which means only half of the solutions are the expected "best pick". While this method garuntees a solution that satisfies our hard contraint of being within the knapsack capacity, it clearly doesn't offer a high likelyhood of obtaining an optimal solution.
+The success of this algorithm is ~51% which means only half of the solutions are the expected "best pick". While this method guarantees a solution that satisfies our hard contraint of being within the knapsack capacity, it clearly doesn't offer a high likelyhood of obtaining an optimal solution.
+
+Another method was explored with a different alteration of starting with all blocks, then removing blocks by random choice rather than ordered weight. This has a lower success rate of ~42%.  In comparrison, generating the next heaviest option and testing it was a more successful approach for finding the optimal solution.
