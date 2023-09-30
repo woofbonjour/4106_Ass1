@@ -18,9 +18,7 @@ Alteration:
 - The generator will start by having all the blocks in the knapsack and, if the candadite surpasses the weight capacity, generate the next heaviest arrangement of blocks.\
 Eventually, the arrangement will be light enough to either satisfy the weight capacity which will then be a valid solution, or will be fully empty in which case there is no solution.
 
-
-
-
+####################################
 
 **Your Analysis:**
 The success of this algorithm is ~51% which means only half of the solutions are the expected "best pick". While this method guarantees a solution that satisfies our hard contraint of being within the knapsack capacity, it clearly doesn't offer a high likelyhood of obtaining an optimal solution.
@@ -30,3 +28,9 @@ Notes:
 - Another route was explored with a different alteration method: starting with all blocks in the knapsack, then removing blocks at random rather than by ordered weight. This had a lower success rate of ~42%.
 
 In comparrison, the final method used in the algorithm above of generating the next heaviest option and testing it was a more successful approach for finding the optimal solution. This method does require sorting the blocks by weight for each row in the dataset. However, because we are only dealing with 5 blocks in this scenario, this does not add much computing time.
+
+
+###################################
+
+ToDo: description and analysis for sim annealing
+- idea for annealing: keep track of ultimate best yet to return after N iterations
