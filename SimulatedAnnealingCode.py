@@ -30,26 +30,22 @@ dataset['Best picks'] = dataset['Best picks'].apply(lambda x : string_to_list(x)
 import random
 import math
 
-##-------------------
-
-def knapsack_value(solution, prices):
+# Get knapsack total price
+def knapsack_price(solution, prices):
     return sum([prices[i] for i in solution])
 
+# Get knapsack total weight
 def knapsack_weight(solution, weights):
     return sum([weights[i] for i in solution])
 
+# Calculate acceptance probability
 def acceptance_probability(current_value, new_value, currTemp):
     if new_value > current_value:
         return 1.0
     return math.exp((new_value - current_value) / currTemp)
 
-
-##-------------------
-
-
 def simulated_annealing(data, N, initial_temperature, cooling_rate):
 
-    # Base case for when there are no solutions
     best_solution = []
     best_solution_price = 0
 
@@ -73,34 +69,49 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
     for iteration in range(N):
         # Generate a neighbor solution by cloning the current solution
         neighbor_solution = list(curr_solution)
-        
+
         # Randomly decide whether to add or remove an item
         if random.random() < 0.5:
-            # Try to add an item with the highest value-to-weight ratio
+            # Add the item with the highest value-to-weight ratio
             best_candidate = None
             best_ratio = 0
+            
+            # Loop through all available items
             for i in range(n):
+                # Check if the item is not already in the current solution
                 if i not in neighbor_solution:
+                    # Calculate the value-to-weight ratio for item
                     ratio = prices[i] / weights[i]
+                    
+                    # Check if adding item satisfies the capacity
                     if weights[i] + knapsack_weight(neighbor_solution, weights) <= capacity and ratio > best_ratio:
                         best_candidate = i
                         best_ratio = ratio
+            
+            # If a suitable item was found, add it to the neighbor solution
             if best_candidate is not None:
                 neighbor_solution.append(best_candidate)
         else:
-            # Try to remove an item with the lowest value-to-weight ratio
+            # Remove the item with the lowest value-to-weight ratio
             worst_candidate = None
             worst_ratio = float('inf')
+            
+            # Calculate the value-to-weight ratio for each item
             for i in neighbor_solution:
                 ratio = prices[i] / weights[i]
+                
+                # Check if the ratio is lower than the worst found so far
                 if ratio < worst_ratio:
                     worst_candidate = i
                     worst_ratio = ratio
+            
+            # If a suitable item was found, remove it from the neighbor solution
             if worst_candidate is not None:
                 neighbor_solution.remove(worst_candidate)
 
+
         # Calculate the value and weight of the neighbor solution
-        neighbor_value = knapsack_value(neighbor_solution, prices)
+        neighbor_value = knapsack_price(neighbor_solution, prices)
         neighbor_weight = knapsack_weight(neighbor_solution, weights)
 
         # Accept or reject the neighbor solution based on acceptance probability
@@ -108,6 +119,7 @@ def simulated_annealing(data, N, initial_temperature, cooling_rate):
             curr_solution = neighbor_solution
             curr_solution_price = neighbor_value
 
+        # Set the best solution found so far
         if curr_solution_price > best_solution_price:
             best_solution = curr_solution
             best_solution_price = curr_solution_price
@@ -125,7 +137,7 @@ solutions_sa = []
 printnow = True
 for _, row in dataset.iterrows():
     target = row['Best price']
-    solution, indexes = simulated_annealing(row, N = 50, initial_temperature=1, cooling_rate=0.95)
+    solution, indexes = simulated_annealing(row, N = 100, initial_temperature=1, cooling_rate=0.95)
     solutions_sa.append(1 if target == solution else 0)
 
 # Accuracy
