@@ -30,7 +30,29 @@ Notes:
 In comparrison, the final method used in the algorithm above of generating the next heaviest option and testing it was a more successful approach for finding the optimal solution. This method does require sorting the blocks by weight for each row in the dataset. However, because we are only dealing with 5 blocks in this scenario, this does not add much computing time.
 
 
-###################################
+## For Annelaing #################################
+**6. Simulated Annealing**
 
-ToDo: description and analysis for sim annealing
-- idea for annealing: keep track of ultimate best yet to return after N iterations
+This algorithm introduces exploration by occasionally accepting suboptimal solutions, facilitated by a cooling mechanism. This allows the algorithm to search for a global maximum rather than settling for a local one. After each iteration, the algorithm's likelihood of accepting worse solutions decreases, aiding it in converging toward an optimal solution.
+
+Algorithm:
+1. Generate a random solution candidate.
+2. Alter the current candidate in some way to create its neighbour.
+3. Compare the current candidate with its neighbour.
+  - If the new candidate is a better solution, set it as the current candidate.
+  - If not, set it as the current candidate based on the temperature probability.
+4. Repeat for a number of iterations and take the best candidate found as the solution.
+
+Criteria:
+- Each candidate must be a valid solution, ie must not surpass the weight limit for the knapsack.
+
+Alteration:
+- Add or remove one block. The block will be chosen based off the best weight to price ration.
+
+**Your Analysis:**
+
+The accuracy of this algorithm is only around 52%. We would expect this to be able to hone in on the global maximas more often, as the cooling method allows more exploration of the full solution space.
+
+Note: Another method we tested for generating neighbour candidates was to randomly chose whether to add or remove a block, then chose which block by random. This had a similar average of around 51%, which means alterations made off the weight-price ratio is not much of an improvement.
+
+Overall, to allow more of the solution space to be explored, it's recommended that some changes be made to the method in how the alterations of neighbours are decided.
